@@ -25,9 +25,12 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+/client/.idea
 *.iws
 *.iml
 *.ipr
+
+/client/node_modules/
 
 ### NetBeans ###
 /nbproject/private/
@@ -53,3 +56,5 @@ hs_err_pid*
 
 ### VS Code ###
 .vscode/
+
+
