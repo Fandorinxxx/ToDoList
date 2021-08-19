@@ -2,8 +2,8 @@ import {LOGIN_REQUEST, LOGOUT_REQUEST, SUCCESS, FAILURE} from "./authTypes";
 
 
 const initialState = {
+    isLoggedIn: false,
     username: "",
-    isLoggedIn: "",
 };
 
 const reducer = (state = initialState, action) => {

@@ -15,15 +15,14 @@ export const authenticateUser = (email, password) => {
             .then((response) => {
                 let token = response.data.token;
                 localStorage.setItem("jwtToken", token);
-               // localStorage.setItem("email", response.data.name);
                 localStorage.setItem("id", response.data.id);
-                axios.defaults.headers.common["Authorization"] = token;
                 dispatch(success({username: response.data.name, isLoggedIn: true}));
 
             })
             .catch((error) => {
                 dispatch(failure());
             });
+
 
     };
 };

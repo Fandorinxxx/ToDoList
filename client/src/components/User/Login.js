@@ -33,7 +33,7 @@ class Login extends Component {
                 this.resetLoginForm();
                 this.setState({"error": "Invalid email and password"});
             }
-        }, 500);
+        }, 1000);
     }
     resetLoginForm = () => {
         this.setState(() => this.initialState);
