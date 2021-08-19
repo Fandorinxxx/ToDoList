@@ -16,11 +16,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/tasks")
@@ -39,20 +42,35 @@ public class TaskController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         User user = userService.getUserByEmail(name);
-        System.out.println(user.toString());
+        String inputString = task.getDescription();
+        System.out.println(inputString);
+        String regularExpression = ",?;?\\t?\\n?";
+        String replace = "";
+        Pattern pattern = Pattern.compile(regularExpression);
+        Matcher match = pattern.matcher(inputString);
+        StringBuffer stringBuffer = new StringBuffer();
+
+        while (match.find()) {
+            match.appendReplacement(stringBuffer, replace);
+        }
+        match.appendTail(stringBuffer);
+        task.setDescription(stringBuffer.toString());
         task.setUserid(user.getId());
         task.setDate(new Date());
         return new ResponseEntity<>(taskService.saveOrUpdate(task), HttpStatus.CREATED);
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Task> update(@RequestBody Task task) {
+    public ResponseEntity<Task> update(
+            @RequestBody Task task) {
+
+        //   return RestR
         return new ResponseEntity<>(taskService.saveOrUpdate(task), HttpStatus.OK);
     }
 
     @GetMapping("/search/{searchText}")
     public ResponseEntity<Page<Task>> findAll(Pageable pageable, @PathVariable String searchText, Long id) {
-        return new ResponseEntity<>(taskPageService.findAll(pageable, searchText,id), HttpStatus.OK);
+        return new ResponseEntity<>(taskPageService.findAll(pageable, searchText, id), HttpStatus.OK);
     }
 
     @GetMapping
@@ -62,7 +80,7 @@ public class TaskController {
                         pageNumber, pageSize,
                         sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending()
                 )
-        ,id), HttpStatus.OK);
+                , id), HttpStatus.OK);
     }
 
     @GetMapping("{id}")

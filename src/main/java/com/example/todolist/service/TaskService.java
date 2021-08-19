@@ -1,6 +1,7 @@
 package com.example.todolist.service;
 
 import com.example.todolist.entity.Task;
+import com.example.todolist.entity.User;
 
 import java.security.Principal;
 import java.util.Collection;

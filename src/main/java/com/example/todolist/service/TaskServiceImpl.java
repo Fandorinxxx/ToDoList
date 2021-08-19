@@ -1,11 +1,13 @@
 package com.example.todolist.service;
 
 import com.example.todolist.entity.Task;
+import com.example.todolist.entity.User;
 import com.example.todolist.repository.TaskRepository;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,8 @@ public class TaskServiceImpl implements TaskService {
     }*/
 
     @Override
-    public Task saveOrUpdate(Task task) {
+    public Task saveOrUpdate(
+            Task task) {
         return taskRepository.save(task);
     }
 
